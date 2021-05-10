@@ -1,0 +1,38 @@
+# Mongo observer address
+mongo_observer: 'user_mongoDB:27017'
+# Name of the dataset 
+dataset_name: "example_dataset"
+# Which domains to transform between, the transformation from A->B is used for evaluating the best epoch
+transform_between: ["Source1", "Source2"]
+# Absolut path to folder containing all data
+dataset_lowest_folder: "../data/example_dataset/"
+# Whether to load a specific epoch
+load_epoch : null
+# What to execute
+mode : "train" #validate #test
+# Run id of model for loading
+run_id : null
+# Shape to cast the images to
+image_shape : [256, 256, 3]
+# Number of epochs to train
+epochs : 200
+# Learning rate to start with
+base_lr : 0.0005
+# Lambda of the adversarial loss
+lambda_adversarial_loss: 1
+# Lambda of the cycle loss
+lambda_cycleloss : 10
+# Lambda of the identity loss
+lambda_identityloss : 10
+# Lambda of the adversarial discriminator loss
+lambda_discriminator_loss : 0.5
+# Number of images per batch
+n_batch : 1
+# Number of resnet blocks
+n_resnet : 9
+# Which additional losses to use (list)
+additional_losses : [] #'add_identity_loss' #'ms_ssim_loss' # 'structure_loss'
+# Lambdas of the specified additional losses
+lambda_additional_losses: [] # 5,5,5
+# Random seed
+seed : 123

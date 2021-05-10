@@ -1,0 +1,19 @@
+# deep learning related
+tensorflow-gpu
+seaborn
+numpy
+sacred
+requests
+pandas
+scipy
+sklearn
+tensorflow-addons
+matplotlib
+scikit-image
+pymongo
+sewar
+opencv-python-headless
+
+# jupyter
+ipykernel
+jupyter_contrib_nbextensions

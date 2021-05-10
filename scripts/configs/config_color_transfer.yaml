@@ -1,0 +1,12 @@
+# Name of the dataset 
+dataset_name: "example_dataset"
+# Name of domain A
+domain_a: "Source1"
+# Name of domain B
+domain_b: "Source2"
+# Absolut path to folder containing all data
+dataset_lowest_folder: "../data/example_dataset/"
+# What to execute
+mode : "validate" #test
+# Random seed
+seed : 4000
