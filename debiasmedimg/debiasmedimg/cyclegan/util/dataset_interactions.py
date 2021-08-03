@@ -228,17 +228,36 @@ def create_patches(image_to_cut, patch_size=16):
     return patches, patch_number
 
 
+def get_previous_range(img):
+    """
+    Establish which range the image belongs to
+    :param img: Image to test
+    :return: Minimum and maximum of the range the image probably belongs to
+    """
+    if np.amax(img) > 1.0:
+        old_min = 0
+        old_max = 255
+    elif np.amin(img) < 0.0:
+        old_min = -1.0
+        old_max = 1.0
+    else:
+        old_min = 0.0
+        old_max = 1.0
+    return old_min, old_max
+
+
 def normalize(img):
     """
     Normalize an image to range [-1,1]
     :param img: Image to normalize
     :return: Normalized image
     """
-    old_min = np.amin(img)
-    old_max = np.amax(img)
+    old_min, old_max = get_previous_range(img)
     # NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
     # NewMin = -1, NewMax = 1, NewRange = 1 - (-1)
-    img = (img - old_min) * 2 / (old_max - old_min) - 1.0
+    new_min = -1.0
+    new_max = 1.0
+    img = (img - old_min) * (new_max - new_min) / (old_max - old_min) + new_min
     # Conv2D layers cast from float64 to float32, so make sure we have the correct type here
     img = tf.cast(img, tf.float32)
     return img
@@ -250,11 +269,12 @@ def normalize_for_display(img):
     :param img: Image to normalize
     :return: Normalized image
     """
-    old_min = np.amin(img)
-    old_max = np.amax(img)
+    old_min, old_max = get_previous_range(img)
     # NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
     # NewMin = 0, NewMax = 1, NewRange = 1 - 0
-    img = (img - old_min) / (old_max - old_min)
+    new_min = 0.0
+    new_max = 1.0
+    img = (img - old_min) * (new_max - new_min) / (old_max - old_min) + new_min
     return img
 
 
@@ -264,11 +284,12 @@ def normalize_for_evaluation(img):
     :param img: Image to normalize
     :return: Normalized image
     """
-    old_min = np.amin(img)
-    old_max = np.amax(img)
+    old_min, old_max = get_previous_range(img)
     # NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
     # NewMin = 0, NewMax = 255, NewRange = 1 - 0
-    img = (img - old_min) * 255 / (old_max - old_min)
+    new_min = 0
+    new_max = 255
+    img = (img - old_min) * (new_max - new_min) / (old_max - old_min) + new_min
     img = tf.cast(img, tf.int32)
     return np.asarray(img)
 
